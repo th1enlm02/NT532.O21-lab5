@@ -1,6 +1,7 @@
 import cv2
 import requests
 import base64
+import time
 
 # Function to encode image to Base64
 def encode_image_to_base64(image):
@@ -27,18 +28,23 @@ def capture_and_send_image(cap, url):
         'h': 50   # height
     }
 
-    # Sending the POST request
+    # Measure the time to send the request and get the response
+    start_time = time.time()
+
     response = requests.post(url, data=data)
 
-    # Printing the response
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
     print("Response from server:")
     print(response.text)
+    print(f"Elapsed time: {elapsed_time:.4f} seconds")
 
     # Display the resized frame
     cv2.imshow('Camera', resized_frame)
 
 def main():
-    url = 'http://127.0.0.1:8000/recog'
+    url = 'http://192.168.137.217:8000/recog'
 
     # Open the camera
     cap = cv2.VideoCapture(0)
